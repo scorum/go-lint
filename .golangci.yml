@@ -60,7 +60,8 @@ linters-settings:
   gofmt:
     simplify: true
   govet:
-    shadow: true
+    enable:
+      - shadow
   lll:
     line-length: 250
     tab-width: 4
