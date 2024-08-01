@@ -8,14 +8,11 @@ run:
   tests: true
   build-tags:
     - integration
-  skip-dirs:
-    - vendor
-  skip-files:
-    - ".*_test.go$"
   modules-download-mode: vendor
 
 output:
-  format: colored-line-number
+  formats:
+    - format: colored-line-number
   print-issued-lines: true
   print-linter-name: true
 
@@ -38,7 +35,6 @@ linters-settings:
   errcheck:
     check-type-assertions: true
     check-blank: false
-    ignore: fmt:.*,io/ioutil:^Read.*,io:^Close,os:^Close
     exclude-functions:
       - (net/http.ResponseWriter).Write
   exhaustive:
@@ -63,10 +59,8 @@ linters-settings:
     min-complexity: 23
   gofmt:
     simplify: true
-  golint:
-    min-confidence: 0.8
   govet:
-    check-shadowing: true
+    shadow: true
   lll:
     line-length: 250
     tab-width: 4
@@ -131,29 +125,23 @@ linters:
     - cyclop
     - durationcheck
     - errorlint
-    - exhaustivestruct
     - forbidigo
     - forcetypeassert
     - gci
     - gochecknoglobals
-    - goerr113
+    - err113
     - gofumpt
-    - golint
     - gomnd
     - gomoddirectives
     - gosec
-    - ifshort
     - importas
-    - interfacer
     - makezero
-    - maligned
     - nlreturn
     - noctx
     - paralleltest
     - predeclared
     - promlinter
     - revive
-    - scopelint
     - tagliatelle
     - testpackage
     - thelper
@@ -164,6 +152,10 @@ linters:
     - nolintlint
 
 issues:
+  exclude-dirs:
+    - vendor
+  exclude-files:
+    - ".*_test.go$"
   exclude-rules:
     - path: _test\.go
       linters:
@@ -173,10 +165,9 @@ issues:
         - gochecknoglobals
         - gocritic
         - gocyclo
-        - goerr113
+        - err113
         - gosec
         - lll
-        - maligned
         - noctx
 
     - path: _mock\.go
@@ -186,7 +177,6 @@ issues:
         - errcheck
         - dupl
         - gosec
-        - maligned
         - gochecknoglobals
         - typecheck
 
