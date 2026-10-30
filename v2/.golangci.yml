@@ -1,0 +1,197 @@
+version: "2"
+run:
+  concurrency: 4
+  build-tags:
+    - integration
+  modules-download-mode: vendor
+  issues-exit-code: 1
+  tests: true
+output:
+  formats:
+    text:
+      path: stdout
+      print-linter-name: true
+      print-issued-lines: true
+linters:
+  enable:
+    - asciicheck
+    - bodyclose
+    - copyloopvar
+    - depguard
+    - dogsled
+    - dupl
+    - exhaustive
+    - gochecknoinits
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - godot
+    - godox
+    - goheader
+    - gomodguard_v2
+    - goprintffuncname
+    - lll
+    - misspell
+    - nakedret
+    - nestif
+    - nilerr
+    - prealloc
+    - rowserrcheck
+    - sqlclosecheck
+    - staticcheck
+    - unconvert
+    - unparam
+    - whitespace
+  disable:
+    - cyclop
+    - durationcheck
+    - err113
+    - errorlint
+    - forbidigo
+    - forcetypeassert
+    - funlen
+    - gochecknoglobals
+    - gomoddirectives
+    - gosec
+    - importas
+    - makezero
+    - nlreturn
+    - noctx
+    - nolintlint
+    - paralleltest
+    - predeclared
+    - promlinter
+    - revive
+    - tagliatelle
+    - testpackage
+    - thelper
+    - tparallel
+    - wastedassign
+    - wrapcheck
+    - wsl
+  settings:
+    depguard:
+      rules:
+        main:
+          list-mode: lax
+          files:
+            - $all
+          allow:
+            - $gostd
+    dogsled:
+      max-blank-identifiers: 3
+    errcheck:
+      check-type-assertions: true
+      check-blank: false
+      exclude-functions:
+        - (net/http.ResponseWriter).Write
+    exhaustive:
+      default-signifies-exhaustive: true
+    gocognit:
+      min-complexity: 33
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+      exclude-types:
+        - Call
+        - CompositeLit
+    gocritic:
+      enabled-tags:
+        - performance
+        - diagnostic
+      settings:
+        captLocal:
+          paramsOnly: true
+        hugeParam:
+          sizeThreshold: 600
+        rangeValCopy:
+          sizeThreshold: 600
+    gocyclo:
+      min-complexity: 23
+    govet:
+      enable:
+        - shadow
+    lll:
+      line-length: 250
+      tab-width: 4
+    misspell:
+      locale: US
+    nakedret:
+      max-func-lines: 40
+    nestif:
+      min-complexity: 6
+    prealloc:
+      simple: true
+      range-loops: true
+      for-loops: false
+    unparam:
+      check-exported: false
+  exclusions:
+    generated: lax
+    rules:
+      - linters:
+          - dupl
+          - err113
+          - errcheck
+          - funlen
+          - gochecknoglobals
+          - gocritic
+          - gocyclo
+          - gosec
+          - lll
+          - noctx
+        path: _test\.go
+      - linters:
+          - dupl
+          - errcheck
+          - funlen
+          - gochecknoglobals
+          - gocyclo
+          - gosec
+        path: _mock\.go
+      - linters:
+          - govet
+        text: declaration of "err" shadows declaration
+      - linters:
+          - lll
+        text: '^//( )?go:generate '
+      - linters:
+          - govet
+        source: log := log
+      - linters:
+          - gochecknoglobals
+        text: '`log` is a global variable$'
+      - linters:
+          - staticcheck
+        source: choice:".+"
+      - linters:
+          - staticcheck
+        text: 'ST1000:'
+      - linters:
+          - staticcheck
+        text: 'ST1020:'
+    paths:
+      - .*_test.go$
+      - vendor
+      - third_party$
+      - builtin$
+      - examples$
+issues:
+  max-same-issues: 0
+  new: false
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    gofmt:
+      simplify: true
+  exclusions:
+    generated: lax
+    paths:
+      - .*_test.go$
+      - vendor
+      - third_party$
+      - builtin$
+      - examples$
